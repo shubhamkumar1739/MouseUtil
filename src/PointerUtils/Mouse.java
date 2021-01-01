@@ -1,9 +1,9 @@
 package PointerUtils;
 
 import DataUtils.QueueItem;
+import PointerUtils.DataUtil.MouseMoveData;
 
 import java.awt.*;
-import java.util.ArrayList;
 
 public class Mouse {
 
@@ -17,13 +17,18 @@ public class Mouse {
         }
     }
 
-    public void moveMouse(ArrayList<QueueItem> items) {
-        for(QueueItem item : items) {
-            int x, y;
-            Point point = (Point) item.getObject();
-            x = point.x;
-            y = point.y;
-            robot.mouseMove(x, y);
-        }
+    public void moveMouse(QueueItem item) {
+        Point currentPosition = MouseInfo.getPointerInfo().getLocation();
+        float xVelocity, yVelocity;
+        int scale;
+        MouseMoveData point = (MouseMoveData) item.getObject();
+        xVelocity = point.xVelocity;
+        yVelocity = point.yVelocity;
+        scale = point.scale;
+
+        int x = Math.round(currentPosition.x + xVelocity * scale);
+        int y = Math.round(currentPosition.y + yVelocity * scale);
+
+        robot.mouseMove(x, y);
     }
 }

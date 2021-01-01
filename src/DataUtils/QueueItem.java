@@ -1,11 +1,30 @@
 package DataUtils;
 
 public  class QueueItem implements Comparable<QueueItem>{
+	public Object getmObject() {
+		return mObject;
+	}
+
+	public void setmObject(Object mObject) {
+		this.mObject = mObject;
+	}
+
+	public long getTimestamp() {
+		return timestamp;
+	}
+
+	public void setTimestamp(long timestamp) {
+		this.timestamp = timestamp;
+	}
+
 	Object mObject;
 	long timestamp;
 	public QueueItem(Object obj, long ts) {
 		mObject = obj;
 		timestamp = ts;
+	}
+
+	public QueueItem() {
 	}
 
 	@Override

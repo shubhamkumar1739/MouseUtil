@@ -1,6 +1,4 @@
-package DataUtils.Listeners;
-
-import DataUtils.QueueItem;
+package DataUtils;
 
 public interface OnDataReceivedListener {
     public void onDataReceived(QueueItem item);

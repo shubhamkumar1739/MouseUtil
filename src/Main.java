@@ -1,25 +1,24 @@
+import ConnectionUtils.UDPDataReceivedListener;
+import ConnectionUtils.UDPWrapper;
 import DataUtils.DataManager;
-import DataUtils.QueueItem;
+import PointerUtils.DataInfo;
 import PointerUtils.Mouse;
-import PointerUtils.Point;
-
-import java.util.Scanner;
+import PointerUtils.UtilItem;
 
 public class Main {
     public static void main(String[] args) {
-        Scanner in = new Scanner(System.in);
         Mouse mouse = new Mouse();
-        DataManager manager = new DataManager(5, mouse);
-        int i = 0;
-        while(i < 9) {
-            int x = in.nextInt();
-            int y = in.nextInt();
-            long timestamp = System.currentTimeMillis();
-            Point point = new Point(x, y);
-            QueueItem item = new QueueItem(point, timestamp);
-            manager.onDataReceived(item);
-            i++;
-        }
+        DataManager manager = new DataManager(mouse);
+
+        UDPWrapper udpWrapper = new UDPWrapper("25.224.16.74", 1234, new UDPDataReceivedListener() {
+            @Override
+            public void onDataReceived(byte[] bytes) {
+                UtilItem data = new UtilItem(new String(bytes), DataInfo.MOUSE_MOVE_TYPE);
+                manager.onDataReceived(data);
+            }
+        });
+        Thread udpWrapperThread = new Thread(udpWrapper);
+        udpWrapperThread.start();
         System.out.println("End");
     }
 }
