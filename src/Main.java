@@ -13,7 +13,7 @@ public class Main {
         UDPWrapper udpWrapper = new UDPWrapper("25.224.16.74", 1234, new UDPDataReceivedListener() {
             @Override
             public void onDataReceived(byte[] bytes) {
-                UtilItem data = new UtilItem(new String(bytes), DataInfo.MOUSE_MOVE_TYPE);
+                UtilItem data = new UtilItem(new String(bytes));
                 manager.onDataReceived(data);
             }
         });

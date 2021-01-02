@@ -1,8 +1,9 @@
 package PointerUtils.DataUtil;
 
 public class MouseMoveData {
-    float xVelocity, yVelocity;
-    int scale;
+    public float xVelocity;
+    public float yVelocity;
+    public int scale;
 
     public MouseMoveData(String data) {
         String components[] = data.split(",");

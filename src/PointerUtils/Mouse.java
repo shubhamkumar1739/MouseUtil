@@ -4,6 +4,7 @@ import DataUtils.QueueItem;
 import PointerUtils.DataUtil.MouseMoveData;
 
 import java.awt.*;
+import java.awt.event.InputEvent;
 
 public class Mouse {
 
@@ -30,5 +31,10 @@ public class Mouse {
         int y = Math.round(currentPosition.y + yVelocity * scale);
 
         robot.mouseMove(x, y);
+    }
+
+    public void clickMouse() {
+        robot.mousePress(InputEvent.BUTTON1_DOWN_MASK);
+        robot.mouseRelease(InputEvent.BUTTON1_DOWN_MASK);
     }
 }

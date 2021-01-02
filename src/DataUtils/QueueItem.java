@@ -13,15 +13,21 @@ public  class QueueItem implements Comparable<QueueItem>{
 		return timestamp;
 	}
 
+	public void setType(int type) {
+		mType = type;
+	}
+
 	public void setTimestamp(long timestamp) {
 		this.timestamp = timestamp;
 	}
 
 	Object mObject;
 	long timestamp;
-	public QueueItem(Object obj, long ts) {
+	int mType;
+	public QueueItem(Object obj, long ts, int type) {
 		mObject = obj;
 		timestamp = ts;
+		mType = type;
 	}
 
 	public QueueItem() {

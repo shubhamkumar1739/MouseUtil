@@ -1,5 +1,6 @@
 package DataUtils;
 
+import PointerUtils.DataInfo;
 import PointerUtils.Mouse;
 
 import java.util.ArrayList;
@@ -13,6 +14,9 @@ public class DataManager implements OnDataReceivedListener {
 
     @Override
     public void onDataReceived(QueueItem item) {
-        mMouse.moveMouse(item);
+        if(item.mType == DataInfo.MOUSE_MOVE)
+            mMouse.moveMouse(item);
+        else if(item.mType == DataInfo.MOUSE_CLICK)
+            mMouse.clickMouse();
     }
 }
