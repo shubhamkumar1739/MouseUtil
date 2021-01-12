@@ -2,23 +2,32 @@ import ConnectionUtils.UDPDataReceivedListener;
 import ConnectionUtils.UDPWrapper;
 import DataUtils.DataManager;
 import PointerUtils.DataInfo;
+import PointerUtils.Keyboard;
 import PointerUtils.Mouse;
 import PointerUtils.UtilItem;
 
+import java.awt.*;
+
 public class Main {
     public static void main(String[] args) {
-        Mouse mouse = new Mouse();
-        DataManager manager = new DataManager(mouse);
+        try {
+            Robot robot = new Robot();
+            Mouse mouse = new Mouse(robot);
+            Keyboard keyboard = new Keyboard(robot);
+            DataManager manager = new DataManager(mouse, keyboard);
 
-        UDPWrapper udpWrapper = new UDPWrapper("25.224.16.74", 1234, new UDPDataReceivedListener() {
-            @Override
-            public void onDataReceived(byte[] bytes) {
-                UtilItem data = new UtilItem(new String(bytes));
-                manager.onDataReceived(data);
-            }
-        });
-        Thread udpWrapperThread = new Thread(udpWrapper);
-        udpWrapperThread.start();
-        System.out.println("End");
+            UDPWrapper udpWrapper = new UDPWrapper(new UDPDataReceivedListener() {
+                @Override
+                public void onDataReceived(byte[] bytes) {
+                    UtilItem data = new UtilItem(new String(bytes));
+                    manager.onDataReceived(data);
+                }
+            });
+            Thread udpWrapperThread = new Thread(udpWrapper);
+            udpWrapperThread.start();
+            System.out.println("End");
+        } catch (AWTException e) {
+            e.printStackTrace();
+        }
     }
 }

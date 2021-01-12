@@ -10,7 +10,7 @@ public class MouseMoveData {
         xVelocity = Float.parseFloat(components[0]);
         yVelocity = Float.parseFloat(components[1]);
         double velocity = Math.sqrt(xVelocity * xVelocity + yVelocity * yVelocity);
-        System.out.println(velocity);
+        System.out.println(xVelocity + " " + yVelocity);
         scale = Integer.parseInt(components[2].trim());
     }
 }
