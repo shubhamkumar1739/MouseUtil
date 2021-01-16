@@ -1,5 +1,7 @@
 package ConnectionUtils;
 
+import PointerUtils.DataInfo;
+
 import java.io.IOException;
 import java.net.*;
 
@@ -11,6 +13,8 @@ public class UDPWrapper implements Runnable{
     int mUDPPort;
     InetAddress mIPAddress;
     private InetSocketAddress socketAddress;
+    DatagramSocket broadcastSocket;
+    Thread broadCasterThread;
 
     public UDPWrapper(UDPDataReceivedListener listener) {
         mListener = listener;
@@ -30,9 +34,7 @@ public class UDPWrapper implements Runnable{
                 DatagramPacket packet = new DatagramPacket(buffer, BUFFER_SIZE);
                 socket.receive(packet);
                 if(mIPAddress == null) {
-                    isBroadcasting = false;
-                    mIPAddress = packet.getAddress();
-                    sendConnectionPacket();
+                    mIPAddress = InetAddress.getByName(packet.getAddress().getHostAddress());
                 }
                 mListener.onDataReceived(packet.getData());
             }
@@ -43,13 +45,16 @@ public class UDPWrapper implements Runnable{
         }
     }
 
-    private void sendConnectionPacket() {
+    public void sendConnectionPacket() {
+        if(broadCasterThread != null)
+            return;
         isBroadcasting = true;
         try {
-            DatagramSocket broadcastSocket = new DatagramSocket(BROADCAST_RECEIVER_PORT);
-            String data = "hello";
+            if(broadcastSocket == null)
+                broadcastSocket = new DatagramSocket(BROADCAST_RECEIVER_PORT);
+            String data = System.currentTimeMillis() + "," + DataInfo.BROADCAST_MESSAGE + "," + InetAddress.getLocalHost().getHostName() + "," +System.getProperty("os.name") + "," +System.getProperty("os.version");
             byte[] buffer = data.getBytes();
-            Thread broadcastThread = new Thread() {
+            broadCasterThread = new Thread() {
                 public void run() {
                     while(isBroadcasting) {
                         DatagramPacket packet = new DatagramPacket(buffer, buffer.length, mIPAddress, BROADCAST_RECEIVER_PORT);
@@ -59,10 +64,13 @@ public class UDPWrapper implements Runnable{
                             e.printStackTrace();
                         }
                     }
+                    broadCasterThread = null;
                 }
             };
-            broadcastThread.start();
+            broadCasterThread.start();
         } catch (SocketException e) {
+            e.printStackTrace();
+        } catch (UnknownHostException e) {
             e.printStackTrace();
         }
     }

@@ -1,21 +1,25 @@
 package DataUtils;
 
+import ConnectionUtils.UDPWrapper;
 import PointerUtils.DataInfo;
 import PointerUtils.Keyboard;
 import PointerUtils.Mouse;
-
-import javax.xml.crypto.Data;
-import java.util.ArrayList;
 
 public class DataManager implements OnDataReceivedListener {
     Mouse mMouse;
     long recentTimestamp;
     Keyboard mKeyboard;
+    UDPWrapper mUDPWrapper;
 
     public DataManager(Mouse mouse, Keyboard keyboard) {
         mMouse = mouse;
         mKeyboard = keyboard;
         recentTimestamp = System.currentTimeMillis();
+    }
+
+    public void setUDPWrapper(UDPWrapper wrapper) {
+        if(mUDPWrapper == null)
+            mUDPWrapper = wrapper;
     }
 
     @Override
@@ -48,5 +52,7 @@ public class DataManager implements OnDataReceivedListener {
             mKeyboard.onTextInput(item);
         else if(item.mType == DataInfo.KEY_ACTION)
             mKeyboard.onKeyAction(item);
+        else if(item.mType == DataInfo.BROADCAST_MESSAGE)
+            mUDPWrapper.sendConnectionPacket();
     }
 }

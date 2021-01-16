@@ -9,10 +9,6 @@ public class UtilItem extends QueueItem {
     }
     public UtilItem(String data) {
         String components[] = data.split(",");
-
-        if(components.length < 2) {
-            return;
-        }
         long ts = Long.parseLong(components[0]);
         int type = Integer.parseInt(components[1].trim());
 
@@ -39,6 +35,8 @@ public class UtilItem extends QueueItem {
             obj = new TextInputData(remStr);
         else if(type == DataInfo.KEY_ACTION)
             obj = new KeyboardPerformKeyActionData(remStr);
+        else if(type == DataInfo.BROADCAST_MESSAGE)
+            obj = new BroadcastMessageData();
 
         setmObject(obj);
         setTimestamp(ts);

@@ -13,4 +13,5 @@ public class DataInfo {
     public static final int KEY_RELEASED = 10;
     public static final int TEXT_INPUT = 11;
     public static final int KEY_ACTION = 12;
+    public static final int BROADCAST_MESSAGE = 13;
 }
