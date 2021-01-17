@@ -29,8 +29,10 @@ public class Keyboard {
 
     public void onKeyAction(QueueItem item) {
         KeyboardPerformKeyActionData data = (KeyboardPerformKeyActionData) item.getmObject();
-        robot.keyPress(KeyboardPerformKeyActionData.getKeyCode(data.keyItem));
-        robot.keyRelease(KeyboardPerformKeyActionData.getKeyCode(data.keyItem));
+        for(int i = 0; i < data.numPresses; i++) {
+            robot.keyPress(KeyboardPerformKeyActionData.getKeyCode(data.keyItem));
+            robot.keyRelease(KeyboardPerformKeyActionData.getKeyCode(data.keyItem));
+        }
     }
 
     public void onTextInput(QueueItem item) {
@@ -42,10 +44,10 @@ public class Keyboard {
         System.out.println(data.text);
 
         robot.keyPress(KeyEvent.VK_CONTROL);
-        robot.keyPress(KeyEvent.VK_SHIFT);
+        //robot.keyPress(KeyEvent.VK_SHIFT);
         robot.keyPress(KeyEvent.VK_V);
         robot.keyRelease(KeyEvent.VK_V);
-        robot.keyRelease(KeyEvent.VK_SHIFT);
+        //robot.keyRelease(KeyEvent.VK_SHIFT);
         robot.keyRelease(KeyEvent.VK_CONTROL);
     }
 }

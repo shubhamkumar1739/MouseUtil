@@ -6,9 +6,15 @@ import java.awt.event.KeyEvent;
 
 public class KeyboardPerformKeyActionData {
     public int keyItem;
+    public int numPresses;
     public KeyboardPerformKeyActionData(String data) {
         String[] components = data.split(",");
         keyItem = Integer.parseInt(components[0].trim());
+        try {
+            numPresses = Integer.parseInt(components[1].trim());
+        } catch (Exception e) {
+            numPresses = 1;
+        }
     }
     public static int getKeyCode(int keyItem) {
         if(keyItem == KeyboardEvent.BKSP)

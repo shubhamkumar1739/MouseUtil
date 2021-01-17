@@ -37,6 +37,8 @@ public class UtilItem extends QueueItem {
             obj = new KeyboardPerformKeyActionData(remStr);
         else if(type == DataInfo.BROADCAST_MESSAGE)
             obj = new BroadcastMessageData();
+        else if(type == DataInfo.LOG)
+            obj = new LogData(remStr);
 
         setmObject(obj);
         setTimestamp(ts);

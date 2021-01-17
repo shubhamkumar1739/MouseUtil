@@ -3,6 +3,7 @@ package DataUtils;
 import ConnectionUtils.UDPWrapper;
 import PointerUtils.DataInfo;
 import PointerUtils.Keyboard;
+import PointerUtils.LogUtil;
 import PointerUtils.Mouse;
 
 public class DataManager implements OnDataReceivedListener {
@@ -14,7 +15,7 @@ public class DataManager implements OnDataReceivedListener {
     public DataManager(Mouse mouse, Keyboard keyboard) {
         mMouse = mouse;
         mKeyboard = keyboard;
-        recentTimestamp = System.currentTimeMillis();
+        recentTimestamp = 0;
     }
 
     public void setUDPWrapper(UDPWrapper wrapper) {
@@ -24,8 +25,11 @@ public class DataManager implements OnDataReceivedListener {
 
     @Override
     public void onDataReceived(QueueItem item) {
-        if(item.timestamp < recentTimestamp)
+        System.out.println("Received data");
+        if(item.timestamp < recentTimestamp) {
+            System.out.println("Timestamp issue");
             return;
+        }
         else
             recentTimestamp = item.timestamp;
         if(item.mType == DataInfo.MOUSE_MOVE)
@@ -52,7 +56,14 @@ public class DataManager implements OnDataReceivedListener {
             mKeyboard.onTextInput(item);
         else if(item.mType == DataInfo.KEY_ACTION)
             mKeyboard.onKeyAction(item);
-        else if(item.mType == DataInfo.BROADCAST_MESSAGE)
+        else if(item.mType == DataInfo.BROADCAST_MESSAGE) {
             mUDPWrapper.sendConnectionPacket();
+            System.out.println("Received broadcast message");
+        }
+        else if(item.mType == DataInfo.LOG)
+            LogUtil.print(item);
+
+        if(item.mType != DataInfo.BROADCAST_MESSAGE)
+            mUDPWrapper.setBroadcasting(false);
     }
 }
