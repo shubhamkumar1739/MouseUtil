@@ -1,5 +1,5 @@
 package ConnectionUtils;
 
-public interface UDPDataReceivedListener {
+public interface DataReceivedListener {
     public void onDataReceived(byte[] bytes);
 }
