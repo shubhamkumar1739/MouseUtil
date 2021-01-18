@@ -1,16 +1,13 @@
 package PointerUtils;
 
 import DataUtils.QueueItem;
-import PointerUtils.DataUtil.KeyBoardPressData;
-import PointerUtils.DataUtil.KeyBoardReleaseData;
-import PointerUtils.DataUtil.KeyboardPerformKeyActionData;
-import PointerUtils.DataUtil.TextInputData;
+import PointerUtils.DataUtil.*;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.datatransfer.Clipboard;
-import java.awt.datatransfer.StringSelection;
+import java.awt.datatransfer.*;
 import java.awt.event.KeyEvent;
+import java.io.IOException;
 
 public class Keyboard {
     Robot robot;
@@ -33,6 +30,8 @@ public class Keyboard {
             robot.keyPress(KeyboardPerformKeyActionData.getKeyCode(data.keyItem));
             robot.keyRelease(KeyboardPerformKeyActionData.getKeyCode(data.keyItem));
         }
+        if(data.keyItem == KeyboardEvent.BKSP)
+            System.out.println("Do backspaces " + data.numPresses + " times");
     }
 
     public void onTextInput(QueueItem item) {
@@ -44,10 +43,8 @@ public class Keyboard {
         System.out.println(data.text);
 
         robot.keyPress(KeyEvent.VK_CONTROL);
-        //robot.keyPress(KeyEvent.VK_SHIFT);
         robot.keyPress(KeyEvent.VK_V);
         robot.keyRelease(KeyEvent.VK_V);
-        //robot.keyRelease(KeyEvent.VK_SHIFT);
         robot.keyRelease(KeyEvent.VK_CONTROL);
     }
 }

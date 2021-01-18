@@ -17,7 +17,9 @@ public class UDPWrapper extends NetworkManager{
     DatagramSocket socket;
 
     public void startListenting() {
-        Thread t = new Thread() {
+        if(listenerThread != null)
+            return;
+        listenerThread = new Thread() {
             @Override
             public void run() {
                 isRunning = true;
@@ -30,6 +32,7 @@ public class UDPWrapper extends NetworkManager{
                         socket.receive(packet);
                         mListener.onDataReceived(packet.getData());
                     }
+                    listenerThread = null;
                 } catch (SocketException e) {
                     e.printStackTrace();
                 } catch (IOException e) {
@@ -37,6 +40,6 @@ public class UDPWrapper extends NetworkManager{
                 }
             }
         };
-        t.start();
+        listenerThread.start();
     }
 }

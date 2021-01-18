@@ -13,6 +13,7 @@ public abstract class NetworkManager {
 
     Thread broadCasterThread;
     Thread receiverThread;
+    Thread listenerThread;
 
     DatagramSocket broadcastSocket;
     DatagramSocket receiverSocket;
@@ -22,11 +23,13 @@ public abstract class NetworkManager {
     String IP_Address;
 
     UDPWrapper udpWrapper;
+    TCPWrapper tcpWrapper;
 
     public NetworkManager() {};
 
     public NetworkManager(DataReceivedListener listener) {
         mListener = listener;
+        tcpWrapper = new TCPWrapper(listener);
         udpWrapper = new UDPWrapper(listener);
     }
 
@@ -94,6 +97,7 @@ public abstract class NetworkManager {
                             e.printStackTrace();
                         }
                     }
+                    receiverThread = null;
                 }
             };
             receiverThread.start();
@@ -103,6 +107,7 @@ public abstract class NetworkManager {
     }
 
     public void startListening() {
+        tcpWrapper.startListening();
         udpWrapper.startListenting();
     }
 }
