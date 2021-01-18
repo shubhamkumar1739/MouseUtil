@@ -7,6 +7,7 @@ import PointerUtils.Keyboard;
 import PointerUtils.LogUtil;
 import PointerUtils.Mouse;
 
+import java.awt.event.KeyEvent;
 import java.util.concurrent.ConcurrentLinkedDeque;
 import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.locks.ReentrantLock;
@@ -58,11 +59,8 @@ public class DataManager implements OnDataReceivedListener {
                       System.out.println("Received broadcast message");
                   } else if (item.mType == DataInfo.LOG)
                       LogUtil.print(item);
-
-                  if (item.mType != DataInfo.BROADCAST_MESSAGE) {
-                      networkManager.setBroadcasting(false);
-                      networkManager.setReceiving(false);
-                  }
+                  else if(item.mType == DataInfo.PHYSICAL_KEY_ACTION)
+                      keyboard.onPhysicalKeyAction(item);
               }
           }
         };

@@ -47,4 +47,18 @@ public class Keyboard {
         robot.keyRelease(KeyEvent.VK_V);
         robot.keyRelease(KeyEvent.VK_CONTROL);
     }
+
+    public void onPhysicalKeyAction(QueueItem item) {
+        PhysicalKeyActionData data = (PhysicalKeyActionData) item.getmObject();
+        if(data.shift == 1) {
+            robot.keyPress(KeyEvent.VK_SHIFT);
+        }
+
+        robot.keyPress(data.keyCode);
+        robot.keyRelease(data.keyCode);
+
+        if(data.shift == 1) {
+            robot.keyRelease(KeyEvent.VK_SHIFT);
+        }
+    }
 }
