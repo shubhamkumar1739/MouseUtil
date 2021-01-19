@@ -60,7 +60,7 @@ public abstract class NetworkManager {
                             DatagramPacket packet = new DatagramPacket(buffer, buffer.length, mIPAddress, BROADCAST_RECEIVER_PORT);
                             broadcastSocket.send(packet);
                             startListening();
-                            System.out.println("Sent Packet to " + mIPAddress.getHostAddress() + " " +mIPAddress.getHostName());
+                            //System.out.println("Sent Packet to " + mIPAddress.getHostAddress() + " " +mIPAddress.getHostName());
                         } catch (IOException e) {
                             e.printStackTrace();
                             System.out.println("Error sending packet!");

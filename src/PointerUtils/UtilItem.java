@@ -39,8 +39,6 @@ public class UtilItem extends QueueItem {
             obj = new BroadcastMessageData();
         else if(type == DataInfo.LOG)
             obj = new LogData(remStr);
-        else if(type == DataInfo.PHYSICAL_KEY_ACTION)
-            obj = new PhysicalKeyActionData(remStr);
 
         setmObject(obj);
         setTimestamp(ts);

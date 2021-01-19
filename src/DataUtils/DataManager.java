@@ -10,6 +10,7 @@ import PointerUtils.Mouse;
 import java.awt.event.KeyEvent;
 import java.util.concurrent.ConcurrentLinkedDeque;
 import java.util.concurrent.ConcurrentLinkedQueue;
+import java.util.concurrent.PriorityBlockingQueue;
 import java.util.concurrent.locks.ReentrantLock;
 
 public class DataManager implements OnDataReceivedListener {
@@ -29,7 +30,7 @@ public class DataManager implements OnDataReceivedListener {
                   QueueItem item = queue.poll();
                   if (item == null)
                       continue;
-                  System.out.println("Received data");
+                  //System.out.println("Received data");
                   if (item.mType == DataInfo.MOUSE_MOVE)
                       mMouse.moveMouse(item);
                   else if (item.mType == DataInfo.MOUSE_CLICK)
@@ -54,13 +55,10 @@ public class DataManager implements OnDataReceivedListener {
                       mKeyboard.onTextInput(item);
                   else if (item.mType == DataInfo.KEY_ACTION)
                       mKeyboard.onKeyAction(item);
-                  else if (item.mType == DataInfo.BROADCAST_MESSAGE) {
+                  else if (item.mType == DataInfo.BROADCAST_MESSAGE)
                       networkManager.sendConnectionPacket();
-                      System.out.println("Received broadcast message");
-                  } else if (item.mType == DataInfo.LOG)
+                  else if (item.mType == DataInfo.LOG)
                       LogUtil.print(item);
-                  else if(item.mType == DataInfo.PHYSICAL_KEY_ACTION)
-                      keyboard.onPhysicalKeyAction(item);
               }
           }
         };

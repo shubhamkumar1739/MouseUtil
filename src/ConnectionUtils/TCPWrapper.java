@@ -18,7 +18,7 @@ public class TCPWrapper extends NetworkManager{
     }
 
     public void startListening() {
-        if(listenerThread == null)
+        if(listenerThread != null)
             return;
         listenerThread = new Thread() {
             public void run() {
@@ -26,12 +26,14 @@ public class TCPWrapper extends NetworkManager{
                 if(serverSocket == null) {
                     try {
                         serverSocket = new ServerSocket(PORT);
+                        Socket socket = serverSocket.accept();
                         while(isRunning) {
-                            Socket socket = serverSocket.accept();
-
                             InputStream inputStream = socket.getInputStream();
                             BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
-                            mListener.onDataReceived(bufferedReader.readLine().getBytes());
+                            String data = bufferedReader.readLine();
+                            if(data == null)
+                                continue;
+                            mListener.onDataReceived(data.getBytes());
                         }
                     } catch (IOException e) {
                         e.printStackTrace();
@@ -39,5 +41,6 @@ public class TCPWrapper extends NetworkManager{
                 }
             }
         };
+        listenerThread.start();
     }
 }

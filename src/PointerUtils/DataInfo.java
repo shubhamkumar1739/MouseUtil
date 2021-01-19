@@ -15,5 +15,4 @@ public class DataInfo {
     public static final int KEY_ACTION = 12;
     public static final int BROADCAST_MESSAGE = 13;
     public static final int LOG = 14;
-    public static final int PHYSICAL_KEY_ACTION = 15;
 }
