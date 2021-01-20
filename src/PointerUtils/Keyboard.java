@@ -12,12 +12,14 @@ import java.util.HashMap;
 
 public class Keyboard {
     Robot robot;
+    Clipboard clipboard;
     HashMap<Character, KeyStrokeUtil> keyMap;
     public Keyboard(Robot r) {
         robot = r;
         keyMap = KeyStrokeUtil.keyMap;
-        if(keyMap == null)
+        if(keyMap == null) {
             keyMap = new HashMap<>();
+        }
         if(keyMap.size() == 0) {
             keyMap.put('!', new KeyStrokeUtil('1', 1));
             keyMap.put('@', new KeyStrokeUtil('2', 1));
@@ -53,6 +55,8 @@ public class Keyboard {
             keyMap.put('?', new KeyStrokeUtil(47, 1));
             keyMap.put(' ', new KeyStrokeUtil(' ', 0));
         }
+
+        clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
     }
     public void onKeyPressed(QueueItem item) {
         KeyBoardPressData data = (KeyBoardPressData) item.getmObject();
@@ -76,13 +80,12 @@ public class Keyboard {
 
     public void onTextInput(QueueItem item) {
         TextInputData data = (TextInputData) item.getmObject();
-        StringSelection selection = new StringSelection("" +data.text);
-        Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
-        clipboard.setContents(selection, null);
-
         System.out.println(data.text);
 
         if(!isTypable(data.text)) {
+            StringSelection selection = new StringSelection("" +data.text);
+            clipboard.setContents(selection, null);
+
             robot.keyPress(KeyEvent.VK_CONTROL);
             robot.keyPress(KeyEvent.VK_V);
             robot.keyRelease(KeyEvent.VK_V);
