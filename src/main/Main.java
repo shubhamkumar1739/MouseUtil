@@ -1,3 +1,5 @@
+package main;
+
 import ConnectionUtils.DataReceivedListener;
 import ConnectionUtils.NetworkManager;
 import ConnectionUtils.UDPWrapper;
@@ -27,7 +29,7 @@ public class Main {
             manager.setNetworkManager(networkManager);
 
             networkManager.receiveConnection();
-            System.out.println("End");
+            System.out.println("Server Started!");
         } catch (AWTException e) {
             e.printStackTrace();
         }

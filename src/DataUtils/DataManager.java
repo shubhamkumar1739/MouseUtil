@@ -20,6 +20,8 @@ public class DataManager implements OnDataReceivedListener {
     ConcurrentLinkedQueue<QueueItem> queue;
     Thread consumer;
 
+    static boolean isShiftPressed, isCtrlPressed, isClickPressed, isAltPressed, isWinPressed;
+
     public DataManager(Mouse mouse, Keyboard keyboard) {
         mMouse = mouse;
         mKeyboard = keyboard;
@@ -30,7 +32,6 @@ public class DataManager implements OnDataReceivedListener {
                   QueueItem item = queue.poll();
                   if (item == null)
                       continue;
-                  //System.out.println("Received data");
                   if (item.mType == DataInfo.MOUSE_MOVE)
                       mMouse.moveMouse(item);
                   else if (item.mType == DataInfo.MOUSE_CLICK)
@@ -59,6 +60,10 @@ public class DataManager implements OnDataReceivedListener {
                       networkManager.sendConnectionPacket();
                   else if (item.mType == DataInfo.LOG)
                       LogUtil.print(item);
+
+                  if(item.mType != DataInfo.BROADCAST_MESSAGE) {
+                      networkManager.isBroadcasting = false;
+                  }
               }
           }
         };

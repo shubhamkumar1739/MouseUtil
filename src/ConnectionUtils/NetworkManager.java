@@ -107,7 +107,7 @@ public abstract class NetworkManager {
     }
 
     public void startListening() {
-        tcpWrapper.startListening();
+        //tcpWrapper.startListening();
         udpWrapper.startListenting();
     }
 }

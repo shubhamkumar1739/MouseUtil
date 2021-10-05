@@ -74,16 +74,14 @@ public class Keyboard {
             robot.keyPress(KeyboardPerformKeyActionData.getKeyCode(data.keyItem));
             robot.keyRelease(KeyboardPerformKeyActionData.getKeyCode(data.keyItem));
         }
-        if(data.keyItem == KeyboardEvent.BKSP)
-            System.out.println("Do backspaces " + data.numPresses + " times");
     }
 
     public void onTextInput(QueueItem item) {
         TextInputData data = (TextInputData) item.getmObject();
-        System.out.println(data.text);
 
         if(!isTypable(data.text)) {
             StringSelection selection = new StringSelection("" +data.text);
+            System.out.println("Input text: " + data.text);
             clipboard.setContents(selection, null);
 
             robot.keyPress(KeyEvent.VK_CONTROL);
@@ -97,7 +95,7 @@ public class Keyboard {
                 if(keyMap.containsKey(letter)) {
                     strokeUtil = keyMap.get(letter);
                 } else if(letter >= '0' && letter <= '9') {
-                    strokeUtil = new KeyStrokeUtil(letter, 0);
+                    strokeUtil = new KeyStrokeUtil  (letter, 0);
                 } else if(Character.isLowerCase(letter)) {
                     strokeUtil = new KeyStrokeUtil(Character.toUpperCase(letter), 0);
                 } else {

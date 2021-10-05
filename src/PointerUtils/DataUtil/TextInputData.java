@@ -6,6 +6,5 @@ public class TextInputData {
         String comps[] = data.split(",");
         String str = comps[0];
         text = str.substring(1, str.length() - 1);
-        System.out.println("Append : " + text);
     }
 }
